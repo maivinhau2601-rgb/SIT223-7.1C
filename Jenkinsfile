@@ -16,8 +16,8 @@ pipeline {
             steps {
                 echo 'Building project with Poetry...'
                 sh '''
-                poetry install
-                poetry build
+                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install
+                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry build
                 '''
             }
         }
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 echo 'Running tests with pytest...'
                 sh '''
-                poetry run pytest
+                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run pytest
                 '''
             }
         }
@@ -35,7 +35,7 @@ pipeline {
             steps {
                 echo 'Running code analysis...'
                 sh '''
-                poetry run sonar-scanner
+                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run sonar-scanner
                 '''
             }
         }
@@ -56,8 +56,8 @@ pipeline {
                 scp -r . $STAGING_SERVER:/mnt/app/
                 ssh $STAGING_SERVER "
                     cd /mnt/app &&
-                    poetry install &&
-                    poetry run python main.py &
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install &&
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py &
                 "
                 '''
             }
@@ -68,7 +68,7 @@ pipeline {
                 sh '''
                 ssh $STAGING_SERVER "
                     cd /mnt/app &&
-                    poetry run pytest
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run pytest
                 "
                 '''
             }
@@ -81,8 +81,8 @@ pipeline {
                 scp -r . $PRODUCTION_SERVER:/mnt/app/
                 ssh $PRODUCTION_SERVER "
                     cd /mnt/app &&
-                    poetry install &&
-                    poetry run python main.py &
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install &&
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py &
                 "
                 '''
             }
