@@ -16,8 +16,8 @@ pipeline {
             steps {
                 echo 'Building project with Poetry...'
                 sh '''
-                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install
-                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry build
+                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install --no-root
+                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry build --no-root
                 '''
             }
         }
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 echo 'Running tests with pytest...'
                 sh '''
-                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run pytest
+                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run pytest --no-root
                 '''
             }
         }
@@ -35,7 +35,7 @@ pipeline {
             steps {
                 echo 'Running code analysis...'
                 sh '''
-                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run sonar-scanner
+                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run sonar-scanner --no-root
                 '''
             }
         }
@@ -56,8 +56,8 @@ pipeline {
                 scp -r . $STAGING_SERVER:/mnt/app/
                 ssh $STAGING_SERVER "
                     cd /mnt/app &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py &
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install --no-root &&
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py --no-root &
                 "
                 '''
             }
@@ -68,7 +68,7 @@ pipeline {
                 sh '''
                 ssh $STAGING_SERVER "
                     cd /mnt/app &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run pytest
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run pytest --no-root
                 "
                 '''
             }
@@ -81,8 +81,8 @@ pipeline {
                 scp -r . $PRODUCTION_SERVER:/mnt/app/
                 ssh $PRODUCTION_SERVER "
                     cd /mnt/app &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py &
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install --no-root &&
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py --no-root &
                 "
                 '''
             }
