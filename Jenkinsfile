@@ -52,7 +52,7 @@ pipeline {
                 ssh $STAGING_SERVER "
                     cd /mnt/app &&
                     /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install --no-root &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py  &
+                    python3 main.py  &
                 "
                 '''
             }
@@ -77,7 +77,7 @@ pipeline {
                 ssh $PRODUCTION_SERVER "
                     cd /mnt/app &&
                     /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install --no-root &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py  &
+                    python3 main.py  &
                 "
                 '''
             }
