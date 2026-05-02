@@ -16,9 +16,6 @@ pipeline {
             steps {
                 echo 'Building project with Poetry...'
                 sh '''
-                apt update
-                apt install -y python3 python3-pip curl
-                curl -sSL https://install.python-poetry.org | POETRY_HOME=/etc/poetry python3 -
                 poetry install
                 poetry build
                 '''
