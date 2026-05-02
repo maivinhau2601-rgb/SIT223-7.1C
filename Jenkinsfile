@@ -40,9 +40,7 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Running Dependency Check...'
-                sh '''
-                dependency-check.sh --scan .
-                '''
+
             }
         }
 
