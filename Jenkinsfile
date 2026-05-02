@@ -17,7 +17,6 @@ pipeline {
                 echo 'Building project with Poetry...'
                 sh '''
                 /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install --no-root
-                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry build --no-root
                 '''
             }
         }
@@ -26,7 +25,7 @@ pipeline {
             steps {
                 echo 'Running tests with pytest...'
                 sh '''
-                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run pytest --no-root
+                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run pytest
                 '''
             }
         }
@@ -35,7 +34,7 @@ pipeline {
             steps {
                 echo 'Running code analysis...'
                 sh '''
-                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run sonar-scanner --no-root
+                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run sonar-scanner 
                 '''
             }
         }
@@ -57,7 +56,7 @@ pipeline {
                 ssh $STAGING_SERVER "
                     cd /mnt/app &&
                     /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install --no-root &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py --no-root &
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py  &
                 "
                 '''
             }
@@ -68,7 +67,7 @@ pipeline {
                 sh '''
                 ssh $STAGING_SERVER "
                     cd /mnt/app &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run pytest --no-root
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run pytest 
                 "
                 '''
             }
@@ -82,7 +81,7 @@ pipeline {
                 ssh $PRODUCTION_SERVER "
                     cd /mnt/app &&
                     /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install --no-root &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py --no-root &
+                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run python main.py  &
                 "
                 '''
             }
