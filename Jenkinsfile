@@ -16,6 +16,7 @@ pipeline {
             steps {
                 echo 'Building project with Poetry...'
                 sh '''
+                pipx install poetry
                 poetry install
                 poetry build
                 '''
