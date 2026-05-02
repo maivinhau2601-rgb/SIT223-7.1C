@@ -1,0 +1,11 @@
+[tool.poetry]
+name = "jenkins-python-app"
+version = "0.1.0"
+description = "CI/CD pipeline demo project"
+authors = ["VanVinh"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
