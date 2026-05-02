@@ -63,7 +63,7 @@ pipeline {
                 sh '''
                 ssh $STAGING_SERVER "
                     cd /mnt/app &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run pytest || true
+                    poetry run pytest || true
                 "
                 '''
             }
@@ -76,7 +76,7 @@ pipeline {
                 scp -r . $PRODUCTION_SERVER:/mnt/app/
                 ssh $PRODUCTION_SERVER "
                     cd /mnt/app &&
-                    /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry install --no-root &&
+                    poetry install --no-root &&
                     python3 main.py  &
                 "
                 '''
