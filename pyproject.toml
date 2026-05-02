@@ -3,6 +3,7 @@ name = "jenkins-python-app"
 version = "0.1.0"
 description = "CI/CD pipeline demo project"
 authors = ["VanVinh"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
