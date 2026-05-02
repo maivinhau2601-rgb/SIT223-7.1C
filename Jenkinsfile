@@ -34,7 +34,7 @@ pipeline {
             steps {
                 echo 'Running code analysis...'
                 sh '''
-                /var/jenkins_home/.local/share/pypoetry/venv/bin/poetry run sonar-scanner 
+                sonar-scanner 
                 '''
             }
         }
