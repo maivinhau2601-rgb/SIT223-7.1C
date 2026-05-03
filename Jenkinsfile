@@ -22,12 +22,30 @@ pipeline {
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running tests with pytest...'
-                sh 'poetry run pytest || true'
+                sh 'poetry run pytest --junitxml=reports/test-report.xml 2>&1 | tee reports/test-logs.txt || true'
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'reports/test-logs.txt', allowEmptyArchive: true
+        
+                    emailext(
+                        to: 'developer@email.com',
+                        subject: "Test Stage: ${currentBuild.currentResult} - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                        body: """
+                            <h2>Unit and Integration Test Result: ${currentBuild.currentResult}</h2>
+                            <p><b>Job:</b> ${env.JOB_NAME}</p>
+                            <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                            <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                        """,
+                        attachmentsPattern: 'reports/test-logs.txt, reports/test-report.xml',
+                        mimeType: 'text/html'
+                    )
+                }
             }
         }
 
         stage('Code Analysis') {
-            steps {
+            steps { 
                 echo 'Running code analysis...'
                 sh '''
                     poetry add --group dev flake8 --quiet
@@ -40,13 +58,26 @@ pipeline {
             steps {
                 sh '''
                     mkdir -p reports
-                    poetry bandit -r . -f json -o reports/bandit-report.json || true
-                    poetry safety check --output json > reports/safety-report.json || true
+                    poetry run bandit -r . -f json -o reports/bandit-report.json || true
+                    poetry run safety check --output json > reports/safety-report.json || true
                 '''
             }
             post {
                 always {
                     archiveArtifacts artifacts: 'reports/**', allowEmptyArchive: true
+        
+                    emailext(
+                        to: 'developer@email.com',
+                        subject: "Security Scan: ${currentBuild.currentResult} - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                        body: """
+                            <h2>Security Scan Result: ${currentBuild.currentResult}</h2>
+                            <p><b>Job:</b> ${env.JOB_NAME}</p>
+                            <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                            <p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+                        """,
+                        attachmentsPattern: 'reports/bandit-report.json, reports/safety-report.json',
+                        mimeType: 'text/html'
+                    )
                 }
             }
         }
