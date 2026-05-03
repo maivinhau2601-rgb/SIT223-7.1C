@@ -39,10 +39,9 @@ pipeline {
         stage('Security Scan') {
             steps {
                 sh '''
-                    pip install bandit safety --break-system-packages || true
                     mkdir -p reports
-                    bandit -r . -f json -o reports/bandit-report.json || true
-                    safety check --output json > reports/safety-report.json || true
+                    poetry bandit -r . -f json -o reports/bandit-report.json || true
+                    poetry safety check --output json > reports/safety-report.json || true
                 '''
             }
             post {
