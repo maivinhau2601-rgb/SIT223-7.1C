@@ -67,7 +67,7 @@ pipeline {
                     archiveArtifacts artifacts: 'reports/**', allowEmptyArchive: true
         
                     emailext(
-                        to: 'maivinhau2601@gmail.com,
+                        to: 'maivinhau2601@gmail.com',
                         subject: "Security Scan: ${currentBuild.currentResult} - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                         body: """
                             <h2>Security Scan Result: ${currentBuild.currentResult}</h2>
