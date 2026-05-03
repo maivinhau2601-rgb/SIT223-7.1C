@@ -1,1 +1,11 @@
-print("Hello World")
+# tests/test_main.py
+
+def test_placeholder():
+    assert 1 + 1 == 2
+
+def test_string():
+    assert "hello".upper() == "HELLO"
+
+def test_list():
+    items = [1, 2, 3]
+    assert len(items) == 3
