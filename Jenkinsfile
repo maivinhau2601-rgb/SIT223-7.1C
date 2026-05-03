@@ -27,8 +27,8 @@ pipeline {
             steps {
                 echo 'Running code analysis...'
                 sh '''
-                    pip install flake8 --break-system-packages || true
-                    flake8 . --max-line-length=120 --exit-zero
+                    poetry add --group dev flake8 --quiet
+                    poetry run flake8 . --max-line-length=120 --exit-zero
                 '''
             }
         }
