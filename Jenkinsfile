@@ -29,7 +29,7 @@ pipeline {
                     archiveArtifacts artifacts: 'reports/test-logs.txt', allowEmptyArchive: true
         
                     emailext(
-                        to: 'developer@email.com',
+                        to: 'fifigin170@inreur.com',
                         subject: "Test Stage: ${currentBuild.currentResult} - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                         body: """
                             <h2>Unit and Integration Test Result: ${currentBuild.currentResult}</h2>
@@ -67,7 +67,7 @@ pipeline {
                     archiveArtifacts artifacts: 'reports/**', allowEmptyArchive: true
         
                     emailext(
-                        to: 'developer@email.com',
+                        to: 'fifigin170@inreur.com',
                         subject: "Security Scan: ${currentBuild.currentResult} - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                         body: """
                             <h2>Security Scan Result: ${currentBuild.currentResult}</h2>
