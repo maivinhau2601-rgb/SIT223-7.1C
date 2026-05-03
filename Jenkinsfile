@@ -1,7 +1,7 @@
 pipeline {
     agent any
     triggers {
-        pollSCM('H/1 * * * *')
+        pollSCM('* * * * *')
     }
     environment {
         STAGING_SERVER    = 'root@192.168.30.104'
