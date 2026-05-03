@@ -12,7 +12,10 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building project with Poetry...'
-                sh 'poetry install --no-root'
+                sh '''
+                poetry lock 
+                poetry install --no-root
+                '''
             }
         }
 
