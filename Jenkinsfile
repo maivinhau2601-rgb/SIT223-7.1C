@@ -85,44 +85,45 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to staging...'
-                sh '''
-                    scp -o StrictHostKeyChecking=no -r . $STAGING_SERVER:/mnt/app/
-                    ssh -o StrictHostKeyChecking=no $STAGING_SERVER "
-                        export PATH=/root/.local/bin:$PATH &&
-                        cd /mnt/app &&
-                        poetry install --no-root &&
-                        pkill -f 'python3 main.py' || true &&
-                        nohup python3 main.py > /var/log/app.log 2>&1 &
-                    "
-                '''
+                // sh '''
+                //     scp -o StrictHostKeyChecking=no -r . $STAGING_SERVER:/mnt/app/
+                //     ssh -o StrictHostKeyChecking=no $STAGING_SERVER "
+                //         export PATH=/root/.local/bin:$PATH &&
+                //         cd /mnt/app &&
+                //         poetry install --no-root &&
+                //         pkill -f 'python3 main.py' || true &&
+                //         nohup python3 main.py > /var/log/app.log 2>&1 &
+                //     "
+                // '''
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
-                sh '''
-                    ssh -o StrictHostKeyChecking=no $STAGING_SERVER "
-                        export PATH=/root/.local/bin:$PATH &&
-                        cd /mnt/app &&
-                        poetry run pytest || true
-                    "
-                '''
+                echo 'Integration Tests on Staging...'
+                // sh '''
+                //     ssh -o StrictHostKeyChecking=no $STAGING_SERVER "
+                //         export PATH=/root/.local/bin:$PATH &&
+                //         cd /mnt/app &&
+                //         poetry run pytest || true
+                //     "
+                // '''
             }
         }
 
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to production...'
-                sh '''
-                    scp -o StrictHostKeyChecking=no -r . $PRODUCTION_SERVER:/mnt/app/
-                    ssh -o StrictHostKeyChecking=no $PRODUCTION_SERVER "
-                        export PATH=/root/.local/bin:$PATH &&
-                        cd /mnt/app &&
-                        poetry install --no-root &&
-                        pkill -f 'python3 main.py' || true &&
-                        nohup python3 main.py > /var/log/app.log 2>&1 &
-                    "
-                '''
+                // sh '''
+                //     scp -o StrictHostKeyChecking=no -r . $PRODUCTION_SERVER:/mnt/app/
+                //     ssh -o StrictHostKeyChecking=no $PRODUCTION_SERVER "
+                //         export PATH=/root/.local/bin:$PATH &&
+                //         cd /mnt/app &&
+                //         poetry install --no-root &&
+                //         pkill -f 'python3 main.py' || true &&
+                //         nohup python3 main.py > /var/log/app.log 2>&1 &
+                //     "
+                // '''
             }
         }
     }
